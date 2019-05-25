@@ -1,0 +1,1742 @@
+2019.05.23 webapp:
+  webapp.selectedindex() lekerdezi/beallitja egy select kivalasztasat;
+  get-ek arnyekolasa kikommentezve;
+  textarea kulon font-size beallitasa kikommentezve; 
+  textarea sarka lekerekitve a (getekhez hasonloan);
+
+2019.05.22 webapp:
+  textarea szinezese hozzaigazitva a get-ekhez;
+  formdata:list 24 hosszan irja ki a mezoazonositokat;
+
+2019.05.22 pcre2:
+  pcre2.h inkludja elott stdint.h-t is inkludalni kell;
+
+2019.05.20 webapp fejlesztesek:
+  page:reload uj metodus, ujrakuldi a DOM egy reszfajat;
+  page:onclick_formdata   uj metodus
+  page:onchange_formdata  uj metodus
+  page:oncenter_formdata  uj metodus
+  beallitjak egy kontrol attributumat, hogy az esemenyre formdatat kuldjon, plusz
+  a megadott kodblokkot felveszi page actionhash-ebe "formdata."+ctrlid kulccsal;
+  xhtmlnode.input_number-ben megadhato a text-align (default=right);
+  xhtmltable.addrow-ban a cellak erteke nem csak text lehet, hanem objektum is;
+
+2019.05.09 webapp password kezeles;
+  formdata nem kuldi a jelszo tipusu mezok tartalmat (helyette ***);
+  webapp.getpassword(id,s1,s2) md5-tel titkositva kulon hivassal kuldi a jelszot;
+  webapp.js-ben md5 szamitas;
+  jelszo mezok stilusa is beallitva a textinput.less-ben;
+
+2019.01.19 kis javitgatasok:
+  websrv .. forbidden eset finomitva;
+  websrv hexcode.lex #-t is escapeli;
+  dtree -l kapcsoloval a symlinkekbe is bemegy;
+
+2019-01-02 terminal-xft szemetesedes javitasa:
+  az Xft fontok neha kilognak a teglalapjukbol,
+  korabban az elszemetesedes ellen ugy vedekeztem,
+  hogy egy pixellel nagyobb teglalapot toroltem a bg-vel,
+  de nem ez kell, hanem ki-be kell kapcsolgatni a clip-et,
+  ami a kilogo szemeteket levagja
+
+2018.12.14 terminal-qt5 pozicionalas:
+  QRect helyett QRectF a kerekitesi hibak ellen;
+
+2018.12.19 terminal fontok megadasa valtozokban:
+  terminal      CCCTERM_FIXFONT     default -misc-console-medium-r-normal--16-160-72-72-c-80-iso10646-1
+  terminal-xft  CCCTERM_XFTFONTSPEC default CCCTERM_FONTSPEC (Monospace-12)
+  terminal-gtk  CCCTERM_GTKFONTSPEC default CCCTERM_FONTSPEC (Monospace-12) 
+  terminal-gtk3 CCCTERM_GTKFONTSPEC default CCCTERM_FONTSPEC (Monospace-12) 
+  terminal-qt5  CCCTERM_QTFONTSPEC  default CCCTERM_FONTSPEC (Monospace-12) 
+
+2018.12.15 terminal-qt5
+
+2018.11.26 javitgatas
+  a pcreposix-ot (egyes rendszereken) explicit linkelni kell;
+  webapp/program/msk2html linkelest akadalyozo kod kihagyva
+  (-O0 undefined reference, -O1 kioptimalizalja -> atcsuszik);
+  
+2018.10.03 windowson wincrypt.h inkludja kikerulve;
+
+2018.09.30 gcc 8.2.1 warningok megszuntetve;
+  -Wno-format-overflow  (sprintf kimeneti buffere esetleg nem eleg nagy)
+  -Wno-class-memaccess  (VALUE objektumok memmove-val torteno masolasa miatt)
+  -Wno-parentheses      (felesleges zarojelekre figyelmeztet, hulyeseg)
+  Ezek a warningok (egyelore csak linuxon) le vannak tiltva. 
+
+2018.08.13 rpcwrapper: alkalmazkodas az XMLRPC valtozasahoz.
+
+2018.08.12 XMLRPC 1.3.0 forkolo szerverek;
+
+2018.08.12 XMLRPC 1.2.0
+  modosult az XMLRPC struct-ok atvetele;
+  mosodult a hash objektumok struct-ba valo kiirasa;
+
+2018.07.31 register minosites a setup generalt fajljaibol is kiveve; 
+
+2018.07.29 visszaallitva az egyszalu forditas lehetosege;
+  ezeket kell valtoztatni:
+    usr/option/*/compile.opt-ban -DMULTITHREAD-et kikommentezni
+    setup/setup-unix/m-ben buildp helyett build-et forditani
+    install.b-ben buildp helyett build-et forditani
+  megj: object/lib/so-k nem kompatibilisek, mindent ujra kell forditani
+  megj: csak azok a programok futnak, amik nem hasznalnak threadeket
+
+
+2018.07.23 asort() es asortkey() hibaja javitva:
+  asort(arr) return erteke arr helyett veletlenul arr[1] volt;
+  osszehasonlito blokkokban atteres a < operatorra (legalabb stringeknel);
+
+2018.07.23 array.cpp egysegesites;
+
+2018.07.22 array.cpp ekezetlenitve (egysegesites elokeszitese);
+
+2018.07.22 uj fuggveny: asortkey():
+  Hasonlo az asort()-hoz, csak mas tipusu a block-ot hasznal.
+  Nem osszehasonlito blockot kell megadni, hanem egy olyan blockot, 
+  ami az x tombelembol eloallitja azt a kulcsot, amit mar egyszeruen 
+  ossze lehet hasonlitani a < operatorral. A default block {|x|x}. 
+  Plusz parameter egy ascend/descend flag, a default .t.==ascend.
+  hivasi formak:
+     asortkey(arr,flag)
+     asortkey(arr,blk,[flag])
+     asortkey(aarr,[start],[count],[blk],[flag])
+
+2018.07.22 asort.cpp uj implementacio:
+  parameter ellenorzes hianyai potolva;
+  hivasi formak:
+    asort(a,[s],[c],[blk])  (hagyomanyos forma)
+    asort(a,blk)    (uj: s es c teljesen elhagyhato)
+  CCC2/CCC3 egysegesitett forras;
+  a variable.cpp-beli valuesort megszunt;
+  nincs valtozas a mukodesben;
+
+2018.07.22 array.cpp-bol kulonveve asort.cpp;
+  a setup-ba is be kell rakni 
+  (modularisabb, kod/mukodes nem valtozott)
+
+2018.07.14 javitgatasok:
+  webapp kitolti content-length headert;
+  websrv a favicon.ico-t image/x-icon mime type-pal adja;
+
+2018.07.14 A flex-bol kiszedve a register minosites:
+   C++ 17-ben a register minosites deprecated.
+
+2018.07.05 peer nevek lekerdezese cert-bol:
+  sslcon_connect(ssl,blk) plusz opcionalis parameter: blk.
+  sslcon:connect(host,port,blk) plusz opcionalis parameter: blk.
+  Az opcionalis kodblokk az sslctx_verifycb()-bol hivodik meg.
+  Az sslctx_verifycb()-nek uj implementacioja van, es kulon 
+  forrasmodulba kerult, hogy alkalmazasszinten  cserelheto legyen.
+  A sslctx_verifycb a certificate chain minden elemere meghivodik:
+    eloszor a root ca cert-jere,
+    aztan a kozbulso cert-ekre, 
+    vegul az aktualis peer cert-jere (depth=0).
+  A kodblokk az aktualis peer neveivel (mint parameterrel) hivodik meg:
+    eloszor a peer CN (Common Name) nevevel, 
+    utana a SAN (Subject Alternative Name) neveivel.
+  Pelda:
+    local names:={}
+    ...
+    sslcon:connect("comfirm.hu",443,{|x|aadd(names,x)})
+    ...
+  A connect utan a names array-ben megkapjuk a peer neveit. 
+  Ez alapjan ellenorizni lehet, hogy a peer neve passzol-e
+  ahhoz a host/domain nevhez, amihez konnektaltunk. 
+  Ekezetes szovegek kigyomlalva.
+
+
+2018.06.29 sslsocket javitgatas:
+  A http_readmessage() osszegyujtve (egyben) adta a transfer-encoding=chunked
+  tipusu uzeneteket, de meghagyta az eredeti headert. Most a transfer-encoding
+  headert kiveszi, es berak egy content-length headert.
+  sslcon.initialize minden esetben erteket ad this:ssl-nek es this:fd-nek.
+  sslcon.connect a set_tlsext_host_name() hivassal a host nevet is kuldi.
+  Uj fuggveny: sslcon_set_tlsext_host_name()
+
+2018.06.11 (netbsd) pm-ben kereses;
+
+2018.06.11 (freebsd) pm-ben kereses;
+
+2018.06.10 (linuxos) pm-ben kereses;
+
+2018.06.03 textview history;
+
+2018.05.21 Windows setup atszervezve;
+
+2018.05.21 UNIX setup frissites;
+
+2018.05.12 alkalmazkodas az openssl 1.1-hez;
+
+2018.05.09 tdc2prgch mezohosszak makrozva;
+
+2018.04.29 windows setup lecserelve;
+2018.04.28 alternativ windows setup:
+  Az windowsos indulo keszlet is cpp forrasbol fordul
+  (hogy ne legyen szukseg exe fajlok orizgetesere);
+  Az (uj) int-to-pointer-cast warning hatastalanitva;
+  A warningok listazasa (Windowson veletlenul el voltak nyomva);
+  Windowson #define strcasecmp ifdefelve;
+
+2018.04.26 z javitasok:
+  _zedit_markedstring javitva
+  zcolor-ban uj kornyezeti valtozok a szinek megadasara:
+    ZCOLOR_TEXT=w/b,n/232     (ket szinpar: a normal es a kijelolt terulet szine)
+    ZCOLOR_MASK=n/133,w+/211  (ket szinpar: a mask es a benne levo get szine)
+  A masodik szinpar opcionalis, ha nincs megadva, akkor az elso inverzet veszi.
+  A header es alert szine ugyanaz, mint a maske.
+  A kivalasztott alert button szine a mask szinenek inverze.
+
+2018.04.15 textview kiemeli a searchstring elofordulasait;
+
+2018.04.08 textview: windows scriptek;
+
+2018.04.02 textview: pozicionalas pontositva;
+
+2018.03.30 CCCDIR/tools/tv - textviewer;
+
+2018.03.28 maszkban megjeleno browse - demo;
+
+2018.03.28  msk2say teljesen ujrairva:
+  a CCC2/CCC3 valtozatok egysegesitve,
+  a tobbsoros komponenseket is kezeli,
+  tamogatja a maszkban megjelenitett browset;
+
+2018.03.28  getbrw objektum: maszkban megjeleno (getlist-be teheto) browse;
+
+2018.03.28 rat() offset parameter hianya potolva;
+  rat(pattern,text,offset) az offset-tol hatrafele keres;
+
+2018.03.17 sql2 konyvtar: sqldebug szelektiven listaz;
+  export SQLDEBUG=on                      (mindent listaz)
+  export SQLDEBUG=on:commit:rollback      (csak ezeket listazza)
+  export SQLDEBUG=off                     (semmit sem listaz)
+  export SQLDEBUG=off:fetch               (csak ezeket nem listazza)
+  export SQLDEBUG=x                       (barmi egyeb: mindent listaz)
+
+2018.03.14 mskShow()-ba visszarakva a clear;
+
+2018.03.11 tds-ben az oszlopdefioniciokhoz collate kiegeszites adhato:
+  Pelda
+    column:  text  C30    c=hu_HU
+  Ez csak a postgresben letezik (legalabbis ilyen formaban),
+  a tobbi adatbazisnal nem generalodik kod a collate clause-bol.
+  A postgres collate clause case sensitive.
+
+2018.03.09 pelda maszk athelyezesere;
+
+2018.03.08 msk2say.prg modularisab maszkok:
+  uj kodgeneralas kihasznalja a maszkok uj lehetosegeit;
+
+2018.03.08 mask.prg modularisabb maszkok:
+  mskShow() elott nem tortenik iras a kepernyore;
+  mskReplace() athelyez (egy esetleg mar kirajzolt) maszkot;
+
+2018.03.08 pushbutton.prg kiegeszitesek:
+  a getekhez hasonloan hasznalja a pre/post blokkokat;
+  a getekhez hasonloan reagal K_TAB,K_PGDN,K_HOME,K_CTRL_W-ra;
+
+2018.03.08 procline.cpp egysegesitve:
+  kommentek ekezetlenitve;
+  CCC3/CCC2 makrok;
+  uj fuggveny: localstacktop(); 
+  uj fuggveny: localstackdepth();
+
+
+2018.03.08 ialert.prg javitva:
+  ures alert meg a dispbegin() elott visszater;
+
+2018.02.25 nyomtato eszkozok kezelese a terminal oldalon:
+  Ha a szerveren be van allitva CCCTERM_REMOTEOPEN=allow/printer,
+  akkor a szerver a qout kimenetet megprobalja atkuldeni a terminalra.
+  Ha a terminalban be van allitva ezek egyike-masika:  
+    CCCTERM_REDIR_CONSOLE=y      
+    CCCTERM_REDIR_PRINTER=y
+    CCCTERM_REDIR_ALTERNATE=y
+    CCCTERM_REDIR_EXTRA=y
+  akkor a terminal elfogadja az atiranyitott qout-ot (megnyilik a csatorna).
+  Az alabbi kornyezeti valtozok akkor erdekesek, ha az atiranyitott
+  csatorna valamilyen nyomtato eszkoz (LPT1,LPT2,LPT3,PRN).
+    CCCTERM_CAPTURE_LPT1
+    CCCTERM_CAPTURE_LPT2
+    CCCTERM_CAPTURE_LPT3
+    CCCTERM_CAPTURE_PRN
+    CCCTERM_CAPTURE
+  Ha a terminal az LPT1 eszkozt akarja megnyitni, es meg van adva 
+  a CCCTERM_CAPTURE_LPT1 valtozo, akkor annak a tartalma szerint 
+  tortenik az eszkoz "megnyitasa". Ha ez nincs megadva, de meg van
+  adva a CCCTERM_CAPTURE, akkor pedig annak a tartalmat veszi.
+  Ha CCCTERM_CAPTURE_LPT1=<filespec> alaku, akkor a <filespec> nyilik meg.
+  Ha CCCTERM_CAPTURE_LPT1=file:<filespec>,  akkor is a <filespec> nyilik meg.
+  Ha CCCTERM_CAPTURE_LPT1=pipe:<filespec>,  akkor a terminal
+  elinditja <filespec>-et, ami az stdin-jebol tudja olvasni
+  a nyomtatni valo adatokat. Linuxon es Windowson egyforma.
+
+2018.02.24 nyomtato eszkozok kezelese a szerver oldalon:
+  Ha be van allitva a DOSCONV_SPECDOSDEV bit,  akkor az alabbi 
+  kornyezeti valtozok vezerlik a nyomatato eszkozok megnyitasat: 
+    CCCLPR_CAPTURE_LPT1=pipe:filespec
+    CCCLPR_CAPTURE_LPT2=file:filespec
+    CCCLPR_CAPTURE_LPT3=filespec
+    CCCLPR_CAPTURE_PRN
+    CCCLPR_CAPTURE
+  Ha a program az LPT1 eszkozt akarja megnyitni, es meg van adva 
+  a CCCLPR_CAPTURE_LPT1 valtozo, akkor annak a tartalma szerint 
+  tortenik az eszkoz "megnyitasa". Ha ez nincs megadva, de meg van
+  adva a CCCLPR_CAPTURE, akkor pedig annak a tartalmat veszi.
+  Ha CCCLPR_CAPTURE_LPT1=<filespec> alaku, akkor a <filespec> nyilik meg.
+  Ha CCCLPR_CAPTURE_LPT1=file:<filespec>,  akkor is a <filespec> nyilik meg.
+  Ha CCCLPR_CAPTURE_LPT1=pipe:<filespec>,  akkor a szerverprogram
+  elinditja <filespec>-et, ami az stdin-jebol tudja olvasni
+  a nyomtatni valo adatokat. Linuxon es Windowson egyforma.
+  A korabb CCC_LPR valtozo megszunt.
+
+2018.02.24 (minden) terminal: az LTP eszkozok kimenete pipe-ba iranyithato;
+  pelda: 
+  CCCTERM_REDIR_PRINTER=y               # a printer kimenetet atkuldi a terminalnak
+  CCCTERM_CAPTURE_LPT1=log-remio-lpt1   # (a terminalon) LPT1 fajlba iranyitva
+  CCCTERM_CAPTURE_LPT1=pipe:ccclpr      # (a terminalon) LPT1 pipe-ba iranyitva a ccclpr programnak
+
+
+2018.02.24 xstart: megadhato a logfile neve;
+
+2018.02.23  filecreat.cpp egysegesitve:
+  Egyseges forras ccc2-ben es ccc3-ban (kommentek ekezet nelkul, makrok).
+  A nyomtato eszkozok kezelese Linuxon es Windowson egyforma:
+  Az LPT1 es tarsai eszkozok megnyitasakor elindul a CCCLPR_CAPTURE 
+  vatozoban megadott program, ami stdin-jeben orokli egy pipe olvashato veget.
+  A nyomtast indito program a pipe irhato vegebe irja a nyomtatnivalot.
+  A mukodes kivaltasahoz be kell allitani a DOSCONV_SPECDOSDEV bitet.
+
+2018.02.23 z, zgrep javitva:
+  amikor z.exe vagy zgrep.exe inditja z-t, akkor nem az 
+  inditoscriptet kell hasznlani, hanem kozvetlenul z.exe-t;
+  zgrep windowson is fel-le kapcsolja a kurzort;
+  strcasecmp definialasa feltetelesen (ne akadjon meg a korabbi definicion);
+
+2018.02.22 windows: install.b bovult:
+  sslforw leforditva;
+  terminal-gtk3 (feltetelesen) leforditva;
+
+2018.02.21 qout egysegesitve:
+  ugyanaz a forras ccc2-ben es ccc3-ban (kommentek ekezet nelkul, literalok makrozva);
+  ugyanaz a forras Linuxon es Windowson (Windows ag megszunt, Linuxon nincs valtozas);
+
+2018.02.14 linux setup bovitve:
+  terminal-gtk3 is lefordul;
+  sslforward is lefordul;
+
+2018.02.06 linux setup felfrissitve:
+  ujrageneralva az indulo cpp keszlet;
+  a variable.cpp-t erinto forditasi hiba clang-gal is jelentkezik,
+  ezert a variable.cpp-t a setup-unix-ban is frissiteni kellett;
+  a build parhuzamositott valtozata kerult s setup-ba;
+
+2018.01.29 Kulonfele portok felrissitve:
+    Windows 32 bit
+    FreeBSD 11.1
+    NetBSD 7.1.1
+  .gitignore-ba: beirva objfre/, objnet/
+  dtos.cpp: ures blokk ";" helyett "{}"
+  signals.cpp: BSD-kbol hianyzo typedef sighandler_t potolva
+  variable.cpp: int vidx helyett unsigned vidx (mingw32 compiler hiba miatt)
+  options/mng/compile.opt: -O1 helyett -O0 (mingw32 compiler hiba miatt)
+  options/fre/compile.opt: fixen odateve (korabban link volt)
+  tds2obj.bat: BSD-ken odamasolva
+
+2018.01.19 install scriptek tovabbi egysegesitese;
+  socket egysegesitve 
+  xmldom egysegesitve 
+  xmlrpc egysegesitve 
+
+2018.01.19 sql2 install scriptek egysegesitve
+  (hogy egyszerubb legyen a karbantartasuk);
+  konyvtar hivatkozasok linuxon: ccc"$CCCVER"_libname
+  konyvtar hivatkozasok windowson: ccc%CCCVER%_libname
+  konyvtar hivatkozasok parfile.bld-ben: ccc$(CCCVER)_libname
+  mkentitylib mindenhol kiveve (build forditja a tds-eket);
+  tds2obj.bat atirva, helyben forditja a tds-t:
+    Korabbi valtozat: a tds-t atmasolta ppo-ba, ott tds->prg->ppo ...
+    Mostani valtozat: helyben tds->prg, prg atmozgatva ppo-ba, ott prg->ppo ...
+    A ppo-beli forditas nem talalja a tds includjait;
+  ccc2c: kiveve a specialis charconv:
+    A regi quout-ban levo cwi konverzio kikerulesere volt speci charconv,
+    a ccc2c-es quout-ban azonban nincs konverzio, ezert a charconv sem kell; 
+  ccc2c: sqlite3 is leforditva:
+    Korabban ccc2-n sqlite3 nem volt leforditva, mivel az sqlite3
+    nem tamogatja a Latin-2-t (csak az UTF-8-at es UTF-16-ot). 
+    Lefordul, de ekezetes karakterekkel valoszinuleg rosszul mukodik;
+
+2018.01.17  install scriptek korszerusitve;
+
+2018.01.16 dbaseiii konyvtar egysegesites;
+  Az egysegesites celja, hogy a ccc3/ccc2c fajlok (ahol 
+  lehet) megegyezzenek, ami megkonnyiti a karbantartast.
+  Magyar ekezetek mindenhol megszuntetve.
+  A ccc2c es ccc3 valtozat kozul a ccc3 megtartva.
+
+2018.01.16 make (m, mb.bat, parfile.bld) scriptek korszerusitese:
+  Az m scriptekben
+    for so in obj$CCCBIN/*.so; do
+  helyett
+    find obj$CCCBIN/*.so | while read so; do
+  elobbi ciklus (zavart okozva) egyszer akkor is fut, 
+  ha valami hiba miatt nem keszult el az so;
+  Egyforma scriptek CCC2-re es CCC3-ra;
+
+2018.01.16 pcre2 interfesz konyvtar;
+  3 darab kulonbozo regex konyvtar van:
+  1) CCCDIR/tools/regex
+    A (regi) pcre konyvtarra epulo pcreposix konyvtarhoz ad interfeszt. 
+    Mukodik: csak X tipussal.
+  2) CCCDIR/tools/pcre
+    A (regi) pcre konyvtarhoz ad kozvetlen interfeszt.
+    Mukodik: X es C tipusokkal.
+  3) CCCDIR/tools/pcre2
+    Az (ujabb) pcre2 konyvtarhoz ad kozvetlen interfeszt.
+    Mukodik: X es C tipusokkal.
+  A (regi) pcre konyvtarat obsolete-nek tekintik,
+  ezert a CCCDIR/tools/pcre2-t celszeru hasznalni.
+
+2018.01.16 pcre interfesz konyvtar portolva Windowsra;
+
+2017.12.11 pcre interfesz konyvtar;
+
+2017.12.05 javitasok az androidhoz:
+  Elnyomva a warning: -Wno-empty-body;
+
+2017.12.05 javitasok az androidhoz:
+  A $PREFIX/lib helyen is keresi a konyvtarakat;
+
+2017.12.05 javitasok az androidhoz:
+  Build a nem talalt libeket -l-lel balrol kiegeszitve irja be az rsplnk 
+  valaszfajlba, ezzel megadja az eselyt a linkernek a tovabbi keresesre. 
+  Korabban az eredeti alakot irta be, ami csak arra jo, hogy mutassa, 
+  mit nem talalt.
+
+2017.12.02 javitasok az androidhoz:
+  alapkonyvtar signal.cpp: sigset helyett sigaction (sigset obsolete);
+  curses terminal: waddnwstr helyett konverzio + waddnstr (waddnwstr hianyzik);
+
+2017.11.26 tdccmp: utility bt struktutak ellenorzesere;
+
+2017.11.06 terminal: LPT eszkoznevek transzformalva; 
+
+2017.10.30 gtk terminalok javitgatasa
+  A kulonbozo windowsok maskepp rosszak;
+
+2017.10.30 gtk terminalok javitgatasa:
+  Az event->string-nek a karakternek megfelelo  
+  UTF-8 stringet kellene tartalmaznia.
+  Linuxon ez igy is van, Windowson azonban az
+  event->string-ben a Latin2 kodolasu karakter van.
+  Azt hiszem, valami kornyezeti valtozo alapjan dont 
+  a GTK, hogy milyen kodolasu legyen a string,
+  pl. Linuxon is el lehet rontani, ha a LANG-ot
+  valami UTF-8-tol kulonbozore allitom.
+  Nem jovok ra, hogy windowson mit kell beallitani.
+  Ideiglenes megoldas: legalabb a magyar legyen jo.
+
+2017.10.28 modositasok a terminalban:
+  CCC_REMOTEOPEN=y helyett megadhato CCCTERM_REMOTEOPEN=y is;
+  CCCTERM_REDIR_USEUID=y bekapcsolja a neveket egyedive tevo toldalekot;
+  A CCCTERM_REDIR_* valtozoknak csak az elso betujet nezi;
+  TERMCMD_TERMINATE: uj terminal opcode,  erre a terminal kilep;
+  TERMCMD_OPEN: az atiranyitott fajlnevekben dirsep-et '_'-re csereli;
+  a terminal lockolja az atiranyitott fajlok 0-dik bajtjat;
+
+2017.10.26 modositas a terminalban:
+  egyedi toldalekot ad az atiranyitott fajlok nevehez; 
+
+2017.10.22 szemetgyujtes valtozott:
+  a) vartab_mark tipusvizsgalattal (teszt);
+  b) vartab_mark tipusvizsgalat nelkul (eles);
+  a PUSHNIL makro nullazza a NIL-ekben levo pointert
+  (hogy kevesebb feleslegesen megorzott objektum maradjon);
+
+2017.10.19 szemetgyujtes valtozott:
+  variable_native.inc -> variable,cpp
+  (helyettesiti  a korabbi variable.cpp-t);
+
+2017.10.18 szemetgyujtes valtozott:
+  vartab_mark-ba visszarakva a tipusvizsgalat;
+  variable_native.inc-ben modositasok;
+  a tobbi (nem hasznalt) variable_*.inc-ben torolve;
+
+2017.10.15 sslforw berakva a terminal directoryba;
+
+2017.10.05 Linuxon lokalis terminal UNIX sockettel;
+
+2017.09.24 webapp fejlesztesek
+  scriptek letoltesekor Content-Type beallitva;
+  uj javascript fuggveny: unloadstyle;
+
+2017.09.01 webapp konyvtar bovites:
+  webapp.loaadscript, 
+  webapp.loadstyle, 
+  webapp.isdefined,
+  webapp.sessionurl;
+  a fieldset legendek id-t kapnak;
+  az osszes szintema elore legyartva;
+  a szintemak programbol valaszthatok;
+
+2017.09.01 webapp szintemak;
+
+2017.08.28 webapp js, less fajlok egysegesen formazva; 
+
+2017.08.26 webapp alkalmazkodas az IE11/Edge-hez; 
+
+2017.08.26 webapp javitgatas: less-ek modernizalasa; 
+
+2017.08,25 webapp javascript-ek es css-ek ujrairva;
+  html elemekbe beledefinialas megszunt -> beagyazott objektunok;
+  pozicionalas flex-es divekkel;
+  a js kodokra CODE helyett XCODE-dal kell hivatkozni;
+  megszunt fuggvenyek:
+    frmaux.size, frmaux.border, webapp.size, webapp.border;
+
+2017.08.22 webapp javitgatas;
+
+2017.08.21 webapp frmaux is meretezheto;
+  style image-ek megjelenitesere;
+
+2017.08.20 webapp websocket permessage deflate;
+
+2017.08.18 webapp gzip tamogatas;
+  linkeli a zlib konyvtarat;
+  a commondata-kat tomoriti, tarolja, tomoritve kuldi; 
+  a sessiondata-kat tomoriti, tomoritve kuldi;
+
+2017.08.16 webapp commondata gzip encoding;
+
+2017.08.13 webapp javitgatas;
+
+2017.08.12 webapp komfortositas;
+  webapp.turndebug csak a debug flaget modositja;
+  frmaux scrollozasa koveti az ifram -> div atalakitast;
+  webapp div meretezes modositas:
+    webapp kezdeti vertical merete 'initial';
+    a programok akarmit beallithatnak;
+    a webapp.resize bar alapallapotban nem lathato;
+    ha frmaux lathatova valik, lathatova valik webapp.resize is;
+    ha frmaux eltunik, eltunik webapp.resize is,
+    egyuttal webapp div visszakapja az eredeti meretet;
+  alert kozepre:
+    blind csak akkorara nyilik, mint a benne levo alert;
+    transition-delay szabalyozva az alertek megjelenitesekor;
+
+2017.08.11 webapp resize bar;
+
+2017.08.10 webapp iframek megszuntetve;
+  iframe#webapp -> div#webapp;
+  iframe#frmaux -> div#frmaux;
+  javitas: meret megadasakor nem hagyhato el a px;
+
+2017.08.09 webapp.alert() finomitva;
+
+2017.08.07 webapp.click();
+
+2017.08.05 webapp javitasok;
+
+2017.08.02 terminal-gtk portolva GTK3-ra; 
+
+2017.08.02 letrehozva a devel branch;
+  Hogy nyugodtan lehessen menteni, de ne változzon folyton a master; 
+  webapp - xhtmltable:update feluldefinialva, torli selectedrow-t;
+  webapp - page:setcaption, utolag is megadhato a caption div;
+  webapp.less: fieldset legend-eknek stilus;
+  webapp.js: openalert a window tetejere scrolloz;
+
+2017.07.25 webapp - style="border-width: thin;"
+  Kerdes valamelyik forumon: hogy lehet 1px-nel vekonyabb a border?
+  Valasz: te hulye, nem erted, hogy az 1px a legveknyabb?
+  A valasz a hulye, ui. nem erti, hogy a bongeszo a zoomolassal
+  nagyitja az 1px-et, ugyhogy az 1px egyaltalan nem valami vekony, 
+  vagyis az eredeti kerdes ertelmes. A zoomolaskor sem vastagodo
+  bordert igy lehet megadni: style="border-width: thin;"
+
+2017.07.25 keyboard inkey kodokat is elfogad;
+  keyboard egy helyett tobb parametert is atvesz, melyek kozott 
+  lehet X,C,N tipus ezzel kozvetlenul inkeycode-ok is betolthetok 
+  a bufferba (korabban pl. keyboard(chr(K_ALT_F10)) mukodott). 
+
+2017.07.25 webapp javitasok;
+  nodejs telepites leiras (less, minifier);
+  webapp.js es webapp.css keszites build-bol kihagyva
+  (hogy hianyzo nodejs eseten ne torlodjon a telepitett css/js);
+  nehany szin valtozott; 
+
+2017.07.23 wbapp javitasok;
+  text alahuzva a fokuszt birtoklo buttonokban;
+  webapp.alert menti/visszaallitja a fokuszt;
+  webapp.spawn menti/visszaallitja a fokuszt;
+  webapp,page:get - uj metodus, tovabbitva a nodehash-nek; 
+
+2017.07.22 webapp.alert legordulos valtozat;
+
+2017.07.21 webapp CSS atirva less preprocesszorra;
+
+2017.07.19 webapp.css tervek;
+
+2017.07.19 webapp javitasok;
+  frmaux ki-bekapcsolo ikon a bal also sarokban;
+  a webapp.page-ek horizontalisan nem scrolloznak;
+
+2017.07.19 webapp javitasok;
+  webapp.page atalakitva: minden eleme CSS-sel parameterezheto;
+  webapp.html komplett (de ures) HTML fajl, linkeli webapp.css-t;
+  main.css megszunt;
+  javascript fajlok tovabb darabolva;
+  webapp.prg: a bedrotozott kezdooldal kitisztitva;
+  frmaux.size(), webapp.size() string argumentumokat is elfogad;
+  bovites: xhtmlnodeNew(type,"a1=v1","a2=v2", ... )
+  overlay-ezos webapp.alert();
+
+2017.07.16 webapp javitasok;
+  Az <a download target="_blank"> elnavigalas ellen,
+  ezzel IE10-11 is viszonylag normalisan hasznalhato;
+  
+2017.07.15 webapp javitasok;
+  Hianyzo String.prototype.includes potolva (IE 10-11-ben nincs);
+  Hianyzo String.prototype.startsWith potolva (IE 10-11-ben nincs);
+  Hianyzo String.prototype.endsWith potolva (IE 10-11-ben nincs);
+  Hianyzo String.prototype.repeat potolva (IE 10-11-ben nincs);
+  Datum ellenorzes atirva IE10-en is futo valtozatra;
+  webapp.logmessage() alkalmazasbol beallithato szerver oldali log;
+  webapp.getmessage() timeoutja kulon retegben merve, ui. az IE es
+  Az Edge es IE technikai timeoutokat okoz, amin tovabb kell lepni;
+  Az <a download> attributum IE-ben nincs tamogatva, ezert nem 
+  működik: webapp.dnloadsessionfile es webapp.linksessionfile
+  A download attributum ertelme, hogy a browser csak toltse le,
+  de ne nyissa meg az url-t. Az IE megnyitja, amivel elnavigal
+  a webapp alkalmazasrol. Alternatíva a webapp.opensessionfile(),
+  ami azonban szar, nem veletlenul talaltak ki a download-ot; 
+
+2017.07.11 webapp javitasok;
+  datumok ellenorzese teljesen ujrairva;
+  webapp-pic.js-bol nem hasznalt kod torolve;
+  formdata.getdate: ellenorzes javitva;
+  xhtmlnode.input_date: ^pattern$; 
+  xhtmlnode.input_number: ^pattern$;
+  switch_to_form(active_form) elott ellenorizni kell, 
+  van-e egyaltalan form (ui. lehet page form nelkul is)  
+
+
+2017.07.08  webapp javitasok;
+  page:visible metodus megszunt;
+  page:switch_to_form beallitja az activ form buttonjaban a 
+  data-pushed="true" attributumot, ami alapjan CSS-sel lehet
+  mutatni, hogy melyik gomb van benyomva.
+  webabb.data.pushed: uj fuggveny a webapp.disabled  mintajara;
+  webapp.html: jatek a CSS stilusokkal;
+
+2017.07.08  webapp javitasok;
+  XCODE.settle az oldal feltoltese utan minden onblur-t lefuttat;
+  XCODE.patsettlevalue elfogadja az ures kitoltest;
+  XCODE,picture intelligensebb pattern generálás;
+  webapp.jsstring intelligensebb es hatekonyabb escapeles;
+  xhtmlnode.input_pattern: pattern -> ^pattern$;
+
+2017.07.07 webapp.js feldarabolva;
+  xhtmlnode.input_picture a data-picture attributumot hasznalja;
+  xhtmlnode.input_pattern nem escapeli \-t, mart a jsstring teszi;
+  webapp.jsstring escapeli az '\' karaktert;
+  Az input kontrollok xreadvalue metodusanak beallitasa mindenhol
+  a *settlevalue(ctrl)-ben tortenik, ami onblur-bol hivodik,
+  az onblur-t pedig mindig meghivja az XCODE.updatecontrol();
+
+2017.07.06 webapp: picture-os kontrollok editalasa;
+  A kontrollok editalasakor egy billentyuleutes akkor elfogadott, 
+  ha a tartalom balrol a kurzorpozicoig illeszkedik a picture-hoz.
+  Ha van hely, akkor a jobboldali resz jobbra tolodik (ins mode),
+  ha nincs hely, akkor felulirodik (overwrite mode).
+  A picture-os kontrollok automatikusan csinalnak maguknak
+  egy pattern="regex" attributumot, hogy a bongeszo ellenorizhesse
+  a tartalom ervenyesseget. (Korabban a program cserelgette a patternt
+  "^$" <--> "^.*$" aszerint, hogy eppen ervenyes vagy ervenytelen
+  volt-e a tartalom.) 
+
+2017.07.05 webapp: kontrollokban xreadvalue metodus;
+  A formdata nem a pattern alapjan dont, hogy a kulonfele  
+  kontroll fajtakbol hogyan kell kiolvasni a bennuk levo adatot, 
+  hanem (ha van neki) meghivja a kontroll xreadvalue metodusat.
+
+2017.07.05 webapp: input_pattern;
+
+2017.07.04 webapp: input_picture;
+  Clipper-szeru template-eket tamogato picture;
+  Az input_account típus megszunt, helyette input_accountnumber,
+  ami vissza van vezetve az input_picture-re, 
+  pl input_accountnumber("FUA") picturje "99999999-NNNNNNNN-00000000";
+
+2017.07.01 webapp javitgatasok;
+  webdefaults: kozvetlen scriptelgetes helyett fuggvenyek;
+  whello/defaults: kozvetlen scriptelgetes helyett fuggvenyek;
+  webapp.page: page:close atirva, timeout kezeles;
+
+2017.06.30 webapp "script" fuggvenyek;
+  Korvonalazodott az iranyelv, hogy kozvetlen javascript kuldes 
+  ne tortenjen a webapputil konytaron kivulrol.  Ez azt jelenti, 
+  hogy a webapp.script fuggveny csak a konyvtaron belul hasznalhato, 
+  tehat minden ilyen hasznalathoz kell kesziteni egy fuggveny API-t. 
+  Ilyenek keszultek most a webapp es frmaux framek  parameterezesere 
+  (visible, border, size). A bongeszobol echozasra, formdata kuldesre. 
+  Egyelore.
+
+2017.06.30 webapp page atdolgozva;
+attrib uploaded: attrib helyett method, 
+    ami azt nezi, hogy NIL van-e restorkey-ben;
+method upload: a screen menteset is ez vegzi,
+    logikus, hiszen ez csinálja az elso kepernyo modositast,
+    tehat kozvetlenul ez elott, ehhez kapcsolodoan kell menteni,
+    a pege-ek cache-elését is ez vegzi'
+attrib restorkey: uj attributum, 
+    tarolja a mentett kepernyo kulcsat,
+    page:restorekey!=NIL-bol tudhato, hogy upload mar lefutott;  
+attrib initblock: felesleges,  megszunt;
+method close: uj method, kilép a page:loop-bol;
+attrib menuid: megszunt, helyette jobb megoldas;
+attrib formid: megszunt, helyette jobb megoldas;
+page.addmenu: a close es quit id-k specialis kezelese megszunt;
+    class closebutton:  megszunt;
+    class quitbutton:  megszunt; 
+    class htmldebugbutton:  megszunt; 
+page.loop: egyszerusitesek:
+    kilepoblokk felesleges, zavaros, megszuntetve;
+    formdata.quit uzenet specialis kezelese megszunt;
+    quit uzenet specialis kezelese megszunt;
+    html uzenet specialis kezelese megszunt;
+    close uzenet kezelese valtozott, vegrehajtja p:close-t;
+
+2017.06.28 webapp javitasok;
+  A xhtmlnode:html string előállításakor escapelni kell, 
+  nert a CDATA-t a böngészők commentnek értelmezik;
+
+2017.06.28 webapp javitasok;
+  page:upload: a page objektumid-hez hozza lett veve az exe datumideje;
+  linksessionfile parameterezese: linksessionfile(id,doc,text:=doc); 
+
+2017.06.28 webapp letoltesek korszerusitve;
+  dnloadsessionfile, linksessionfile ujrairva;
+  webapp.js-ben uj elem: dnloadlink;
+  webapp.sessiondir() dirsep-pel a vegen adja a nevet;
+
+201.06.26 webapp: objektum cache a bongeszoben;
+  webapp.js, XCODE.xlib={}, barmit tartalmazhat;
+  webapp.js, XCODE.xlib.isdefined(id), tartalmazza-e id-t;
+  webapp.page:upload nezi, hogy a page megvan-e mar a bongeszoben;
+  a cacheles letilthato: page:cacheable:=.f.;
+  xlib.prg: cachelest vegzo fugvenyek; 
+
+2017.06.25 webapp demok korszerusitve;
+
+2017.06.24 websocket.readmessage-ben megnovelt timeout;
+  webapp.debug(.t.)-vel intenziv echozas utan egy ido mulva 
+  a bongeszok nem tudtak a timeouton belul valaszolni;
+  websocket.readmessage-ben a recv eredmenyet hosszra kell vizsgalni;
+  webabb.js-ben lekorlatoztam frmaux meretet, mert a  tul sok adat
+  miatt meg nagyobb timeout-ot igenyelnek a bongeszok;
+  websocket.writemessage-nek keszult egy darabolos valtozta;
+
+2017.06.23 webapp.js javitas;
+  Enter-re az FF mas erteket rak event.charCode-ba, mint a tobbi 
+  browser. A Firefox 0-t, a tobbi browser 13-at. A kulonbseg felderitese
+  es kikerulese fel napi pocsoles;
+
+2017.06.23 webapp/common/favicon.ico csere;
+
+2017.06.22 webapp.js hangolgatas;
+  webapp.js-ben formdata kiveszi
+    - a szamlaszamokbol a kotojeleket,
+    - a datumokbol a kotojeleket,
+    - a szamokbol a vesszoket;
+  xhtmlnode.input_date, input_number, input_account mindegyike 
+  rendelkezik pattern attributummal, amit a webapp.js felhasznal az 
+  adott tipus felismeresehez (hogy kivegye a kotojeleket es vesszoket); 
+  Enter-re acckeypress (szamlaszamok onkeypress fuggvenye)
+  megigazitja az editalt szamlaszamot;
+  formdata:put karakterre konvertal;
+  uj metodusok: formdata:getnumber, formdata:getdate, formdata:getlogical
+  a megfelelo tipusra konvertal (karakterekre maradt a korabbi get).
+
+2017.06.22 webapp.js hangolgatas;
+  editalas elott a szamlaszamokba kotojelet tesz;
+  formdataba teves elott a szamlaszamokbol kiveszi a kotojelet;
+  Enter-re numkeypress megigazitja az editalt szamot (meghivja onblur-t);
+  Enter-re datkeypress megigazitja az editalt datunot (meghivja onblur-t);
+
+2017.06.22 webapp.js: onblur event fuggvenyek valtozatak;
+  numblur, datblur, accblur az event helyett a this-szel hivodik;
+  numblur, datblur, accblur-t az updatecontrol is meghivja;
+
+2017.06.21 webapp: checksum-os vackok megszuntetve;
+  formdata:cheksum megszunt;
+  page:formcheck, page:savecheck, page verifycheck megszunt;
+
+2017.06.21 webapp.js: kimaradt textarea tamogatas potolva;
+
+2017.06.20 page hangolgatas;
+  A page:upload bejegyzi a page-be, hogy mar megtortent a feltoltes.
+  Ha megtortent, akkor a loop elotti automatikus feltoltes elmarad.
+  Ha megtortent, akkor a loop elotti/utani automatikus kepernyo 
+  save/restore is elmarad, azaz kikerulhetok az automatizmosok; 
+  A page:loop elejere automatikus formdata:update kerult; 
+  A page:loop-ban ismetlodo automatikus formdata:update meghagyva; 
+  A page:addform es a form:addformaction hivasi sorrendje tetszoleges;
+  formdata:update es formdata:upload vegrehajt egy formdata:save-et, 
+  ami utan egy megismetelt update mar nem csinal semmit;
+  formdata:list javitgatva;
+
+2017.06.19 webapp.page:addaction is atveszi a block parametert;
+  webapp.form.addformaction is atveszi a block parametert;
+  Nincs szukseg a page fieldsetjeben a margin-left stilusra;
+
+2017.06.19 webapp.spawn-ban formdata.SPAWN helyett jobb  egy 
+  sima SPAWN-t echozni. Maskepp a formdata esetleges hibaja
+  (pl. multiple control) zavarhatja a valasz megvarasat.
+  (A child hibas formdatajanak elemzesetol a parent szall el.)
+
+2017.06.19 A webapp.page osztaly nodehash attributumanak tipusa 
+  valtozott simplehash-rol xhtmlnode.nodehash-re. Igy a createnodehash 
+  hivast  meg lehet sporolni. Ha egy kontrol nincs meg a hashben, akkor 
+  a hash automatikusan ujrageneralodik, ha a kontrol azutan sincs meg, 
+  akkor apperror kivetel keletkezik; 
+
+2017.06.17 tisztogatas webapp-ban;
+    szazalekos meretezes mindenhol kiveve;
+    Kontos dolgok kiveve;
+    page:addmenu-ben, page:addsubmenu-ben opcionalisan
+    megadhato az akcio kodblokkja is.
+
+2017.06.17 tisztogatas webapp-ban;
+
+2017.06.14 webapp-ban datum, szam, szamlaszam tamogatas;
+
+2017.05.25 Tutor windowsos fordito/indito scriptek;
+
+2017.05.24 screenattrib es screencompose-ban extended color tamogatas:
+  screenattrib tovabbra is 1 bajtos attributumokbol allo tombot ad
+  (maskepp elromlananak olyan programok, mint msk2say, msk2html),
+  az esetleges 2 bajtos attributumokat konvertalja 1 bajtosra.
+  A screencompose elfogad 1 es 2 bajtos attributumokat is.
+  brwhighlight atirva, hogy mukodjon 1 es 2 bajtos attributumokkal is.
+
+2017.05,24 Windows terminalban extended color tamogatas;
+
+2017.05.22 webapp keretrendszer hozzaadva;
+
+2017.05.22 zgrep vedi az idezojeleket;
+
+2017.05.19  egysegesites;
+
+2017.05.16 ccc_config kiserletileg bevezetve;
+  A CCC_CONFIG env valtozoban megadott fajl tartalma:
+    NEV=ERTEK
+  alaku sorok, ezekbol hash tabla keszul, ami a programokbol
+  lekerdezheto a ccc_config(NEV) fuggvenyhivassal;
+
+2017.05.15 pushbutton tamogatas;
+   uj osztaly: pushbutton.prg;
+   valtoztak: mask.prg, msk2say.prg;
+
+2017.05.15 listbox kereso funkcioval felszerelve;
+
+2017.05.15 radiobutton:group getjei kodblokkba lettek bujtatva,
+  hogy a rekurziv adatszerkezet ne akadalyozza a kiirasokat;
+
+2017.05.14 ccc3_uic konyvtarban extended color tamogatas;
+
+2017.05.14 ncterm-ben extended color tamogatas;
+
+2017.05.14 terminal-ban extended color tamogatas;
+
+2017.05.14 terminal-xft-ben extended color tamogatas;
+
+2017.05.14 terminal-gtk-ban extended color tamogatas;
+
+2017.05.12 mysql OLVASS bovult;
+
+2017.05.10 javitgatas;
+  browse puldown kiemelt sora brw:colorspec::logcolor(4) (1 helyett);
+  msk2say jobb azonnal visszaallitani a szineket a maszkokban;
+
+2017.05.09 colorutil ujra ujrairva;
+
+2017.05.09 Tobb resource-bol eloallo include-ok fuggoseget is nezi;
+  A konkret eset: say(msk,sor), ahol most a sor megvaltozasa 
+  is kivaltja az ujraforditast. Hogy vegul az msk2say.bat
+  vagy a sor2say.bat fog-e futni, az az s_rules rendezettsegetol fugg,
+  ami jelenleg az msk2say futasat eredmenyezi. A sor2say.bat-nak
+  ettol fuggetlenul jelen kell lennie, mert ebbol allapitja meg
+  a build a lehetseges forditasi muveleteket.
+
+2017.05.08 Az installban msk2say elore lett veve;
+  Ha egyszerre le vannak torolve a say fajlok es az msk2say.exe,
+  akkor az msk-kat tartalmazo projektek nem tudnak lefordulni.
+  Ugyanezert msk2say nem lehet olyan projektben, ami msk-kat is
+  tartalmaz, tehat az msk2say-t kulon kell forditani;
+
+2017.05.09 A brwCreate-tel keszitett browse-ok szine globalisan allithato;
+  A CCC_BRWCOLOR valtozoban megadott colorspec-et teszi bele a browse-okba:
+    colorspec::logcolor(1) -> a browse sorai
+    colorspec::logcolor(2) -> a browse menuje
+    colorspec::logcolor(3) -> a browse kurzor sora
+  ha nincs megadva logcolor(3) vagy az egyezik logcolor(1)-gyel,
+  akkor kepernyotartalom inverzevel vilagitja ki a kurzorsort;
+
+2017.05.09 listbox achoice szin a get:colorspec-bol szarmaztatva;
+
+2017.05.08 msk2say kikeruli a " karaktereket;
+  megjegyzes: a jelenlegi valtozat nem tamogatja az nls-t.;
+
+2017.05.08 alert szine atallitva sargara;
+
+2017.05.08 colorutil korszerusitve;
+
+2017.05.07 koreszerusitett demo az uj controlokhoz;
+
+2017.05.07 msk2say korszerusitve;
+  altbutton control tipus tamogatas;
+  szineket be/visszaallito kod generalasa;
+  egesz sorokat kiiro mskSay-ek (getek kikerulese nelkul); 
+
+2017.05.07 mask.prg;
+  uj fuggveny: mskAltButton()
+  szinek kezelese: mskColorSay(), mskColorGet(), mskColorRestore()
+  beallitjak a CCC_MSKCOLOR_SAY-ben es CCC_MSKCOLOR_GET-ben
+  megadott szineket, illetve visszaallitjak az eredeti szint;
+  Egy osszetartozo dispbegin/dispend par (amik azonban kulonbozo
+  fuggvenyekben voltak,  es igy zavart okoztak) torolve;
+  
+
+2017.05.07 uj get leszarmazott control: altbutton;
+
+2017.05.07 listboxok korszerusitve;
+  Jobb szoveg szerinti illeszkedes kereses;
+  listbox:select szam vagy szoveg bemenettel is mukodik
+  listbox:select visszaterese a kivalasztott index (korabban NIL)
+  Hasznalhatobb block varget/varput-hoz;
+
+2017.05.07 hibaturobb revcolor();
+
+2017.05.07 checkboxok es radio buttonok kirajzolasa korszerusitve;
+
+2017.05.04 terminal ablak atmeretezese javitva;
+  Nem jo az ablakot unmap/map-olni, mert valtozik tole a pozicio;
+
+2017.05.03 tisztogatas a linuxos terminal kodjaban;
+
+2017.04.27 settermsize dispbegin/dispend-del vedve;
+  A dispbegin mellekhatasara van szukseg: uriti a dirty buffert,
+  enelkul a terminalmeret csokkentese utan aszinkron kuldott 
+  putrect-ben elszallhat a gtk-s terminal;
+
+2017.04.26 msk2say-ben sorrend kezeles javitva;
+
+2017.04.21 SQL2 sqlliteral_d fixen 'YYYY-MM-DD' formatumot hasznal.
+  korabbi konverzio: if(empty(x),"null","'"+dtoc(x)+"'")
+  mostani konverzio: if(empty(x),"null",x::dtos::transform("'XXXX-XX-XX'"))
+  A korabbi konverziohoz mindig be kellett allitani a set date format-ot,
+  es nem mukodott a program, ha ez elmaradt. Most a (mashol akarhogy beallitott) 
+  date format-tol fuggetlenul mindig 'YYYY-MM-DD'-vel konvertal.
+
+2017.04.19  xstart helyettesiti a kornyezeti valtozokat;
+   Az XML <env> tagokban elofordulo $(NAME) alaku valtozok
+   helyere becsereli a korabbi <env> tagokkal megadott
+   vagy a getenv(NAME)-bol kapott erteket;
+
+2017.04.06 build.exe -o opcio;
+  -o opcioval egyes forrasok kihagyhatok: -o<sourcefile_to_omit>;
+
+2017.03.24 ddict korszerusites;
+  dddel torli datadict.bt-bol azokat a sorokat, amikhez nincs prg;
+  prg2tdc a regi datadict prg-kbol eloallitja a tdc-ket;
+  tabsuper a tdc-kbol eloallitja tabByName-et, tabSuperList-et;
+  opcionalis namespace a tabSuperList, tabByName fuggvenyekben;
+  ddict2 opcionalisan namespace-be teszi a super fuggvenyeket;
+
+2017.03.24 build hosszabb dependecy listet enged meg;
+
+2017.03.24 ppo2cpp-ben a nodetab atmeretezes javitva;
+
+2017.03.19 build: msk2html tamogatas;
+
+2017.03.15 SQLite3 regresszio dokumentalva;
+
+2017.02.19 Menuzo browseban tobbszintu popup menu;
+  ha a kodblock helyen array van, akkor egy uj popup menu nyilik;
+  (25 ev utan bovult az API);
+
+2017.02.11 Windowson dummy obj2so.bat file;
+
+2017.02.11 Build a kulso lib-ektol valo fuggoseget is vizsgalja;
+  A -b-vel megadott (kulso) lib-ektol valo fuggoseget is vizsgalja;
+  Korabban ezt nem vizsgaltuk, mert Linuxon tulnyomoan so-kat hasznalunk,
+  az uj so-k pedig az exe ujralinkelese nelkul is ervenyre jutnak.  
+  Most csak a lib kiterjesztesu statikus libeket vettem be, de ertelme 
+  lehet az so-kat is nezni, ha ellenorizni akarjuk az ujralinkelhetoseget;
+  Kodismetles megszuntetesere: verifdep;
+
+2017.01.19  dokumentumok README.md-bol linkelve;
+  install-linux.md
+  install-windows.md
+
+2017.01.19  dokumentumok README.md-bol linkelve;
+  ccctools/buildp/build.md    
+  tools/sql2/sql2.md    
+  gtk/cccgtk.md    
+
+2017.01.12  ccc_belulrol.md: megszunt link cserelve;
+
+2017.01.08  doksik: README.md, ccc_belulrol.md;
+
+2017.01.04  automatikus symlinkek torolve;
+  terminal-gtk forditas install.b-ben;
+
+2016.12.29 demo-wro.prg;
+  scrstr.prg, scrstr.ch hozzadva;
+  getcmd.prg athozva ccc2-bol;
+  @ get preprocesszalasa getnew helyett _getnew-val;
+ 
+2016.12.24 inkeymap-aquaris;
+
+2016.12.17 Windows __filetimetoutctime() fuggveny;
+
+2016.12.12 Windows-2000 tamogatas dobva;
+  A 2016.10.17-os filetime() workaround Windows-2000-re
+  nem veszi figyelembe a teli-nyari idoszamitast;
+
+2016.12.07 build forditasi szabalyok rendezese javitva;
+
+2016.12.05 tabchlog.prg valtozatatasai CCC2-bol athozva.
+
+2016.12.03 tdc2prgch parhuzamosithato;
+
+2016.12.01 terminal es terminal-xft atirva;
+  a korabbi programok atirva olyan szervezesure,
+  ahogy a gtk-s terminal mukodik:
+  a tcpio szal kizarolag csak lekesziti a valtozasokat,
+  minden kepernyo muveletet az eventloop szal vegez;
+  savex a sima textcmp funkcioban is alkalmazza PREDIFF(S/W)-t; 
+
+2016.11.27 tobb resource fordito tamogatasa;
+  build-ben dinamikus forditasi szabalyok;
+  build-ben a resource-ok keresese hash-sel optimalizalva;
+  tdc2prgch kodgenerator tamogatva;
+  page atirva CCC3-ra;
+  msk2pge atirva CCC3-ra;
+  pge2wro atirva CCC3-ra;
+
+2016.11.20 hianyzo copyright-ok potolva;
+  savex: fajlnevek vedelme Windows parancssorban;
+
+2016.11.12 windowson minden leforditva az uj msys2/mingw64-gyel;
+  az ssl/crypto/gtk forditasban uj konyvtarnevek;
+  z.exe a ZEOL valtozoban megadott modon kepezi a sorvegeket
+
+2016.11.04 terminal-gtk ablak atmeretezes
+  keszhez kozeli allapot (linuxon);
+  terminal.exe es terminal-xft.exe programok korszerusitve
+  kezelik a KP_Delete + NumLock kombinaciot;
+
+2016.11.03 uj terminal implementacio: terminal-gtk;
+
+2016.10.26 z.exe-ben _zedit_clipboard elszallas javitva;
+
+2016.10.17 windows lstat implementacio;
+  filetime() workaround Windows-2000-re;
+
+2016.10.12 directory() modernizalas;
+  fileseek.prg: torolve, benne levo API megszunt;
+  fileattr.ch: torolve;
+  ctdisk.ch: torolve;
+  unix/findnext.prg: torolve;
+  windows/findnext.cpp: atirva reentransra, benne levo API visszaminositve belsore;
+  unix/readir.cpp: atirva reentransra;
+  stat.cpp: uj fuggvenyek, stat_st_size(), fstat_st_size(); 
+  unix/directory.prg: reentrans, linktarget, wildcard nelkul optimalizalva;   
+  windows/directory.prg: reentrans, adja a linktargeteket;
+  windows/filecopy.cpp: kiszedve a megszunt filesize() API;
+  z: fajlmeret ellenorzes fstat_st_size-zal (directory helyett);
+  mklink: intelligensebb kiirasok
+  err: script a hibak gyors ellenorzesehez
+
+2016.10.02 windows directory default: +L
+
+20126.10.02  windows: setfdati javitas;
+  windows: __filetimetodosdatetime() megszunt;
+  windows: __dosdatetimetofiletime() megszunt;
+  windows: __filetimetolocaltime() uj;
+  windows: __localtimetofiletime() uj;
+  windows: filetime.cpp egysegesitve (ccc2/ccc3;
+  windows: setfdati atirva __localtimetofiletime()-ra;
+  savex: findfile maszkja egysegesitve (ccc2/ccc3);
+
+2016.10.02 savex '/' shortcut-ra keres;
+  
+2016.10.01 terminal szinkronizalas javitas
+  dupla termio_send helyett termio_send2 (folyamatos mutex lock)
+  a dupla hivas kozben elengedett mutex miatt keveredtek a message-ek;
+  windowson uj: __localtimetofiletime __filetimetolocaltime;
+  setfdati-ban javitva a local idozona kezelese;
+
+2016.10.01 terminal szinkronizalas javitas;
+  termapi.cpp_async atnevezve termapi_async.h
+  termapi.cpp_sync atnevezve termapi_sync.h  (nincs karbantartva)
+
+2016.09.29 symlinkek tamogatasa windowson;
+
+2016.09.25 alkalmazkodas a windows-hoz;
+  .gitignore boviteve az objmng directorykkal;
+
+2016.09.25 directory() hivasokban 'H' attributum;
+  Tovabbi helyeken beveve a H attributum. 
+
+2016.09.25 directory() hivasokban 'H' attributum;
+  Sok helyen be kell venni a H attributumu fajlokat. 
+  Megj: Linuxon nincsenek H atributumu fajlok.
+
+2016.09.25 con.db2 atnevezve conn.db2
+
+2016.09.24 zgrep-ben fajlnevek "" koze teve;
+  (az elozo javitas ''-t hasznalt, de az windowson rossz)
+
+2016.09.22 savex 5.2.0;
+  savex 5.2.0 (nincs teljesen kitesztelve);
+  __unix.b-ben raspbian tamogatas;
+
+
+2016.09.15 signal() helyett sigset() az alapkonyvtarban;
+  SIG_TSTP signal felveve a signalok koze (de nincs kezelve);
+  zgrep-ben fajlnevek '' koze teve;  
+  savex-ben zenelejatszas (CTRL-P-re);
+
+2016.08.14 savex parameter sorrend javitva
+
+2016.08.11 z.exe clipfile kiirasa gyorsitva;
+
+2016.08.02 z.exe K_ALT_P-re zarojelpart keres;
+  savex.exe -s opcioja megszunt additivnak lenni;
+  savex.exe -s opciojanak defaultja '.';
+  tools parfile.bld-k egysegesitese a CCCVER valtozoval;
+  gtk konyvtar: megszunt API-k kihagyasa a forditasbol
+
+2016.07.27 script tisztogatas;
+  A git-es scriptek vegkepp ki lettek pucolva.
+  Akinek ilyesmi kell, csinal maganak,
+  vagy a gitnavot es tarsait lehet hasznalni.
+  
+
+2016.07.14 savex 5.0 feldarabolva kisebb prg-kre.
+
+2016.07.12 Atteres a repo-beli eletre.
+  Megj: Ahogy elkezdtem ftr/fts-sel kezelni a fájlokat,
+  egy rakás fájl visszaregult. Egy fajl attol regul vissza,
+  hogy a work tree-ben van ugyanolyan tartalmu, regebbi fajl,
+  ftr/fts pedig a tartalom alapjan azonositja a fajlokat.
+  savex-ben -mD opcio
+  kimaradt GPL copyrightok potolva 
+
+2016.06.19 savex 4.0.01 -m2 osszehasonlitas 
+
+2016.06.15 Tisztogatas.
+  tutor/amoeba -> privat
+  tutor/google -> privat
+  tutor/signal (gyotro teszt) -> privat
+  tutor/stack-overflow megszunt
+  tutor/logview ->privat
+  tutor/lock -> privat
+  tutor/mvcc-pageman -> privat
+  tutor/mvcc-sql2 -> privat
+
+2016.06.14 tools/list egysegesites.
+
+2016.06.12  Windowsos scriptek javitgatva.
+
+2016.06.11  Windowsos setup felulvizsgalva.
+  uj build_exe a setuphoz (torli error-t)
+  windowsos setup felulvizsgalva
+
+2016.06.10 Programok egysegesitese.
+  savex egysegesitve.
+  z egysegesitve.
+  zgrep egysegesitve.
+  sckutil: socket_noinherit (uj fuggveny)
+
+2016.06.02 (jt) sslforward meg jobban felujitva.
+
+2016.06.01 Parhuzamos forditas Windowson is.
+  Windowsos fordito scriptek felujitva.
+
+2016.05.31 (jt) sslforward felujitva.
+
+2016.05.31 Kis modositasok a terminalban es uic-ben.
+  Kis modositasok, hogy CCC2-ben is leforduljon az
+  eredetileg CCC3-ban irt kod.
+
+2016.05.21 terminal learnkey korszerusitve.
+
+2016.05.15 terminal elfogadja a CCC2 gotoxy parancsot.
+  Kivetelesen elfogadja a CCC2 (!) parancsot,
+  hogy a konytarat kikerulo kontospw-vel is mukodjon.
+
+2016.05.03 uic konyvtar CCC2-vel is lefordithato.
+  Alternativ ccc2_uic konyvtar, ccc3_uic-bol atalakitassal:
+    screencell 4 byte helyett 2 byte
+    sendrect konvertal latin2-rol utf8-ra
+    inkey konvertal CCC3-rol CCC2-re
+  Ezzel a CCC3 terminalok hasznalhatok CCC2-ben is.
+  CCC3-ban nincs szandekos valtozas.
+
+2016.04.19  z.exe K_CTRL_F6 ekezetltenites
+  z-ben K_CTRL_F6 a kijelolt teruletet ekezetleniti.
+
+2016.04.14 szignal maszkolas
+  Korabban csak  CCC szintu "maszkolas" volt.
+  A sigcccmask-ban beallitott szignalokat a CCC handler 
+  egyszeruen ignoralta. Ilyenkor a rendszer ugy veszi, 
+  hogy a szignal kezbesitve volt (ugy elintezve). Ezzel 
+  szemben, ha a maszkot a rendszer szintjen is beallitjuk,
+  akkor a rendszer olyan szalat keres, ami nem maszkolja
+  az adott szignalt, es ha talal ilyet, akkor ez a szal
+  kapja meg a szignalt. Tehat kaphatunk olyan szignalokat,
+  amik korabban elvesztek.
+  thread.cpp-ben javitva a szignal maszk oroklodese.
+  sigprocmask helyett pthread_sigmask-ot kell hasznalni.
+  signals.cpp, thread.cpp, thread_data.h atvive CCC2-be.
+
+2016.04.03 Uj INKEYMAP-xterm file.
+
+2016.04.02  K_NAV_UP (uj) inkey kodok
+  Hagyomanyosan a K_UP,K_DOWN... inkey kodok egybeesnek bizonyos 
+  ctrl karakterekkel:
+    K_UP      Ctrl-E  K_NAV_UP   
+    K_DOWN    Ctrl-X  K_NAV_DOWN 
+    K_LEFT    Ctrl-S  K_NAV_LEFT 
+    K_RIGHT   Ctrl-D  K_NAV_RIGHT
+    K_HOME    Ctrl-A  K_NAV_HOME 
+    K_END     Ctrl-F  K_NAV_END  
+    K_PGUP    Ctrl-R  K_NAV_PGUP 
+    K_PGDN    Ctrl-C  K_NAV_PGDN 
+    K_INS     Ctrl-V  K_NAV_INS  
+    K_DEL     Ctrl-G  K_NAV_DEL
+  Igy azonban egy CCC program nem tud kulonbseget tenni az UP nyil
+  lenyomasa es a ^E lenyomasa kozott. Hogy ez a megkulonboztetes 
+  lehetseges legyen, az uj terminal az egyedi K_NAV_UP... kodokat
+  kuldi a CCC programnak. A ccc3_uic konyvtar alapallapotban ezeket
+  kicsereli a hagyomanyos K_UP, K_DOWN keszletre, ezert a regi
+  a programok nem veszik eszre a kulonbseget. Ha egy program meg 
+  akarja kulonboztetni a K_UP-ot a ^E-tol, akkor a setctrlinkey(.f.) 
+  hivassal kikapcsolja a cserét, ezaltal az uj K_NAV_UP kodot kapja.  
+
+2016.03.15  ncterm-ben ujrairt readkey.
+
+2016.03.12
+  ncurses-es terminálban nonl() mód.
+
+2016.03.10
+  swrite atirva 3 parameteresre fwrite mintajara.
+
+2016.02.19
+  build.exe tamogatja a tds2prg forditast.
+  tds2prg.exe javitva a parhuzamosithatosag erdekeben.
+  tds2prg.bat uj build script.
+  
+2015.12.27
+  prg2ppo: mesterseges \n a filek vegen.
+  websrv:  minimalis szintaxis ellenorzes httpreq--ben.
+
+2015.11.12
+  mpool.cpp warning javitas
+
+2015.09.24 week() implementacio
+  week() -> 1-53, het sorszama az evben, CA-Tools 
+  isoweek() -> 1-53, het sorszama az evben, ISO kompatibilis 
+  isleap() -> .t./.f., szokoev, CA-Tools 
+
+2015.09.03 serult bt filek jobb vedelme
+  mpool.cpp: mpool_put-ben CRC iras, mpool_get-ben CRC ellenorzes
+  btcopy.prg: packolas ORDERBY_RECNO algoritmussal
+
+2015.02.22 buildp resource-ok forditasa is parhuzamositva.
+
+2015.02.18 buildp maxthread defaultja 4.
+
+2015.02.12 buildp atdolgozva.
+
+2015.02.09 buildp javitas.
+
+2015.02.09 buildp: uj program, build parhuzamositott valtozata.
+
+2015.02.03 sqlqueryNew("nonselect") alak mukodesenek egysegesitese.
+  sqlqueryNew("nonselect") minden interfeszben hibat ad.
+  Mindenhol egysegesitve az err:subcode-ok beallitas. 
+
+2015.02.02 sql2.postgres.sqlquery atdolgozva.
+  Megszunt az automatikus 'declare CURSORID cursor for ...' kiegeszites.
+  A program alkalmazkodik ahhoz, hogy a queryben van-e 'declare cursor',
+  azaz a 'declare CID cursor for select ...' alaknal kulon fetch-elget.
+  A kurzorazonosito elhagyhato, azaz ha a queryt CID nelkul adjak meg 
+  (declare cursor for select ...), akkor automatikus CID keszul.
+  Rowsetben es queryben: A szalbiztonsag erdekeben static valtozo helyett 
+  con:__cursorcount__ (uj attrib) szamlalja a kurzorokat. A deklaralt 
+  kurzorok lezarasa (rowsetben is, queryben is) rahagyhato a pg-re.
+
+2015.02.01 sql2.mysql.sqlconnection.initialize javitva
+  sql_mode beallitas: set session sql_mode='ANSI_QUOTES,no_backslash_escapes'
+  tdsutil/dom2prg-ben mutex vedelem az osztaly regisztralasa korul
+
+2015.01.27 sql2.mysql.sqlconnection.initialize javitva
+
+2015.01.26 isolation level beallitas atdolgozva, rowset lock atdolgozva.
+  con:sqlisolationlevel-ben beallithato:
+    ISOL_SER   serializable 
+    ISOL_REP   repeatable read 
+    ISOL_COM   read committed 
+    ISOL_RO    read only 
+    ISOL_RW    read write 
+  rowset lock parameter:
+    NIL    no lock
+    "x"    exclusive lock, wait forever
+    "x0"   exclusive lock, no wait 
+    "x99"  exclusive lock, wait 99 sec
+    "s"    shared lock, wait forever
+    "s0"   shared lock, no wait 
+    "s99"  shared lock, wait 99 sec
+
+2015.01.23 sqlcommit/sqlrollback kivetelt dob lezaratlan query/rowset-re.
+  con:sqlcommit es con:sqlrollback automatikusan lezarnak minden 
+      fuggoben levo queryt es rowsetet, es ha volt mit lezarni, 
+      akkor kivetelt dobnak. Eredmeny: tranzakciohataron nem lehet
+      feldolgozas alatt allo (lezaratlan) query vagy rowset.
+  SQLite3 sqlsequence javitva: A bind parameterrel nem szabad
+      adatbazis objektum neveket helyettesiteni, mert a helyettesites
+      karakterliteralkent tortenik, vagyis idezojelbe kerul.
+  SQLite3 egyfelhasznalos, nincs 'for update'.
+  MySQL beallitja sql_mode='ANSI_QUOTES'-ot.
+  Postgres rowset:next-ben hibakezeles.
+  Postgres query:next-ben hibakezeles.
+
+2015.01.20 sql2.db2 interface library
+
+2015.01.08 sql2.mysql interface library
+
+2014.12.09 crypto library, uj fuggvenyek: crypto_sha256*
+
+2014.07.26 tutor/signal gyotro programok felujitva/tesztelve.
+
+2014.07.24 jterminal forditasi opciok.
+
+2014.04.10 FO_NOINHERIT opcio.
+
+2014.04.01 forditasi opcio: -O1/-O2
+  Teszt: openSUSE 13.1, Arch 2014.03.01, Fedora 20.
+
+2014.03.19 Ellenorzes openSUSE 13.1-en, flex/lemon prototypes.
+  Az openSUSE 13.1-ben levo gcc 4.8.1 hianyolja az uj stilusu 
+  (parameterlistas) C deklaraciokat, deklaraciok potolva.
+
+2014.02.24 script tisztogatas.
+  Helyben forditas utan semmi se akarjon commitolodni.
+  Ha megis, akkor g-clean visszaall az utoso commitra.
+  A g-commit-ban hasznalt firstpar.prg beveve tutor-ba.
+
+2014.02.20 str.cpp javitva.
+  str(x)-ben 16-rol 15-re csokkentve a kiirt jegyek szama.
+  Fajlnevek escapelese rename-ben es savex-ben.
+
+2014.02.09 __unix.b multiarch-ositva.
+
+2014.01.30 setup-windows ujra.
+  A mingw32-es setup keszlet nem fut 64 biten (dll-ek hianyoznak).
+  Setup keszlet ujraforditva msc-32-vel (ehhez nem kell plusz dll).
+  Windows spawn.cpp-ben az argumentum ellenorzes javitva.
+  Windows CCC3-as spawn.cpp bemasolva CCC2 ala.
+
+2014.01.29 setup-windows frissitve.
+
+2014.01.29 str.cpp ujrairva.
+  Vedekezik a -0 kiirasa ellen.
+  Tizedesek csonkitasa nem valtozott.
+
+2014.01.25 malloc.h megszuntetve
+  <malloc.h> (depracated) mindenhol <stdlib.h>-ra cserelve
+  setup-unix keszlet frissitve
+
+2014.01.22 minusz 0 kiirasa javitva.
+  javitas str.cpp-ben: elkeruli a -0 kiirasat.
+  jeed.exe linkeles sql2_sqlite3-mal.
+
+2014.01.16 FreeBSD 10.0 forditas (clang).
+  gcc helyett cc parancs.
+  compile.opt helyett compile-clang.opt vagy compile-gcc.opt
+    (forditas elott ezek egyiket linkelni kell compile.opt-ba)
+    (clean-all.b-ben kihagyva a linkek torlese)
+  lemon.c-ben castok.
+  compile.opt-ban:
+    -O2
+    -Wno-empty-body
+    -Wno-constant-logical-operand
+  vmm.cpp xvisequal() hiba javita.
+
+2014.01.15 nagy maszkok.
+  (A mask 2.1.00 ota tamogatja nagy maszkok rajzolasat.)
+  msk2say kodot general a nagy maszkokbol.
+  Ha a kepernyo (terminal) kisebb, mint a maszk,
+  akkor a savescreen/restscreen runtime errort okoz,
+  ezt figyelembe kell venni az alkalmazas tervezesekor.
+
+2014.01.01 ncterm leforditva netbsd-n, freebsd-n.
+
+2013.12.27 ubuntu saucy install.
+  linuxon a linkelo scriptekbe beirva: --no-as-needed
+  ennek a defaultja valtozott meg, emiatt voltak a hibak
+  az ezzel kapcsolatos tobbi valtoztatas visszaveve
+  megj: debian wheezy-n nem valtoztattak meg a defaultot
+  ezeken volt tesztelve:
+    ubuntu lucid, precise, saucy
+    debian wheezy
+    freebsd 8.2, 9.2
+    netbsd 5.1, 6.1.2
+
+2013.12.26 ubuntu saucy install.
+  Uj warningok megszuntetve.
+  Az ld a 2.22 verziotol kezdve (szerintem) rosszul linkel.
+  libccc3.so-ba linkelni kell dl-t, korabban eleg volt csak az exe-be linkelni.
+
+2013.12.23 obj2exe.bat,obj2exe.bat
+  a konyvtarakat felsorolo --start-group --end-group megduplazva
+  a CCC2-ben ez mar korabban megtortent, de a CCC3-ban valahogy kimaradt
+  (elromlott a gcc linker: a group opcio ellenere egymenetesen mukodik)
+  setperm.exe (elszallas helyett) jelzi a rossz UTF-8 kodolasu fileneveket
+
+2013.11.29 tools/crypto ccc2-backport.
+  kod egysegesitve (korabban a ccc2 hianyos volt)
+
+2013.11.28 rpcwrapper hibakezeles javitva.
+  setperm kihagyja a .* fileket.
+  file permission flagek javitva a repoban.
+
+2013.11.23 javitasok xmlrpc-framework-ben
+rpcsession
+  A SESSION tábla zapolása deadlockot okozott.
+  A SESSION nyitása és zapolása át van téve a program elejére,
+  a zappal összeakadó open close+várakozással próbálkozik.
+rpcwrapper
+  Hibakezelés javítása:
+  Megszűnt klienseknek nem kell választ küldeni.
+  A destruct-ban nem szabad elszállni (mert kilép a program).
+  A write-ban nem szabad elszállni (ugyan nem lép ki a program),
+  de elmaradhat a forward-ban levő client és queue kezelés.
+  Az error osztályú hibákat az errorhandler logolja.
+
+
+2013.11.23 breakblock javitas
+  a kozbulso finally agak break-et hivtak,
+  emiatt a break elejen levo breakblock hivas megtobbszorozodott,
+  javitaskent a fordito a finally-ban break helyett break0-t fordit
+  break0 = regi (breakblock nelkuli) break
+  uj break = regi break + eval(breakblck)
+  a konyvtarakat ujra kell forditani
+  utf8conv felesleges makrok kihagyva
+
+2013.11.02 XMLRPC: faultCode tipusa  double helyett int.
+
+2013.10.16 ddict2-ben hosszabb filenevek.
+
+2013.10.08 breakblock(), javitasok az xmlrpc konyvtarban.
+
+2013.10.05 Javitasok az xmldom es xmlrpc konyvtarban.
+
+2013.10.01 btbtx táblaobjektumban tabKeyCompose újraírva.
+
+2013.09.02 z.exe jelzi, ha tul nagy filera inditottak el.
+
+2013.08.19 zhist - a historyból választott fájlra indítja z-t.
+
+2013.08.08 z Invalid UTF-8 encoding választós alert.
+
+2013.08.03 zgrep használható ncterm-mel is.
+
+2013.07.29 z F12-re a kijelölt stringgel ss-sel keres.
+
+2013.07.06 ncterm, inkey kis javítások.
+ui_/unix/inkey.cpp: átállítja fd0 attribútumait
+    korábban minden olvasásnál át- és visszaállította (ne echózzon)
+    ha az átállítás előtt nyomtak meg egy gombot, mégis echózott
+    ha a visszaállítás előtt nyomtak ctrl-c-t, elromlott a konzol
+    ezért átállítás a program elején, visszaállítás atexit-ben
+unix-ncurses/readkey.h fd0 attribútum átállítás, mint fent
+    az ncterm nem futhat a háttérben (!)
+    ezért, ha fd0 (a select szerint) olvasható, de nem jön adat,
+    akkor ki kell lépni, enélkül beragadnak a háttérbe kerülő jobok
+uic/termapi/termio.cpp  terminál örököltetés
+    CCCTERM_INHERIT=yes hatására  connect_to_terminal végén
+    a CCCTERM_CONNECT változó átállítódik SOCKET:termsck-ra
+    ennek hatására, ha a program elindít később egy terminálos
+    child processzt, az örökölni fogja a parentje terminálját
+    hogy a parent és a child kiírásai időben ne fedjék át egymást,
+    a childnak várnia kell az indulással egy frissítési ciklust
+    ha ugyanabban a terminálban jelenik meg a parent és a child,
+    akkor a parentnek  meg kell várnia a child befejeződését
+tools/savex a run előtti/utáni savescreen/restscreen átkerült dolist-ba
+tools/z run előtt/után savescreen/restscreen
+
+2013.06.29 XMLRPC wrapper reuseaddress.
+XMLRPC wrapper reuseaddress beallitas javitva.
+Hianyzo copyright-ok potolva.
+
+2013.06.18 Javitasok xmlrpc-ben.
+faultString: "classname|metnam|operation|description|subsystem"
+
+2013.06.07 Javitasok xmlrpc-ben.
+rpcmethod  X/C tipuselteres javitva.
+rpcmonitor bovitve hitelesitessel.
+rpcwrapper uj opcio: --reuseaddr.
+rpc_server hibauzenet bovitve (args).
+
+2013.03.04 NetBSD 6.1 forditas, mmap teszt.
+Tesztelve NetBSD-n a 2013.02.23-as filemapping javitas.
+NetBSD-n a vart modon (jol) mukodik a MAP_SHARED, ezert 
+a MAP_SHARED->MAP_ANONYMOUS valtoztatas Linuxra lett korlatozva.
+(NetBSD-n MAP_ANONYMOUS helyett MAP_ANON-t kell hasznalni.)
+
+2013.02.23 tbbtbtx/btsort.cpp (filemapping,qsort).
+CCC2-ben es CCC3-ban ugyanaz.
+Eredetileg a rendezendo fajlon mukodott az mmap.
+A karos ido elotti, implicit szinkronizalas megelozesere
+a memory map es a fajl szet lettek valasztva (Linuxon),
+Windowsban maradt a regebbi kod.
+
+2013.02.11 build/git config javitgatas
+1) clone utan mindennek le kell tudni fordulni
+2) clone/pull + forditas utan a git ne akarjon commitolni
+
+2013.01.26 terminal-xft-ben uj kurzor.
+Harom kurzor: 1) alahuzos, 2) fg<->bg valtogatos, 3) baloszlop.
+
+2013.01.17 qout.cpp: eject javitva.
+eject akkor mukodik, ha set printer on.
+
+2013.01.10 Terminál kurzor.
+Többféle kurzor implementáció a linuxos terminálban:
+1) aláhózós, 2) fg<->bg váltogatós.
+
+2012.12.25 terminal-xft.
+Karakteres terminál program freetype fontokkal.
+
+2012.12.13 tabsuppindex hibája (üres táblán) javítva.
+tabSuppIndex() nem hozta létre az új btree struktúrát a bt filében, 
+ha a bt filé egyetlen rekordot sem tartalmazott. Az ilyenkor appendált rekordok  
+suppindex kulcsai (hibásan) a recno indexbe kerültek, amitől úgy látszott,
+mintha a rekordok duplázódnának.
+
+2012.10.31 Windows terminál javítás (csíkozó achoice).
+A terminálban 1 pixellel balrább kell kezdeni az invalidálást.
+Windows 2000-en ez nem kellett (valójában érthetetlen).
+
+2012.10.27 GTK forditas korszerusitese Windowson.
+Alkalmazkodas a mono-2.10.9 csomagban levo GTK-hoz.
+Directoryk egyenkenti osszeszdese helyett minden directory include es lib alol.
+Nem fordulo modulok kihagyva.
+
+2012.10.24 Ez még valahogy kimaradt.
+További javítások a terminálban.
+
+2012.10.23 További javítások az átirányításban.
+A CCC3 is figyeli a CCC_REMOTEOPEN-t (ugyanúgy, mint a CCC2).
+
+2012.10.23 Terminál átirányítás átvizsgálva, javítva.
+
+2012.10.22 Új Windows/Linux közös teszt a terminálhoz és a remote io-hoz.
+xstart törli az <env>varname=</env> alakban megadott változókat.
+
+2012.10.20 Portolás 64 bitre Windows 2012-n (második lépés).
+Első lépésben elértük, hogy minden forduljon és fusson, ami 32 biten futott.
+A második lépés célja, hogy a programok ki tudják használni a nagy címteret,
+azaz működjön a navigáció a filemapping nagy fájlokra is.
+(Unixon ezek korábban is működtek, csak Windowson van működésbeli változás.)
+Binary stringek hossza unsigned long -> binarysize_t (=size_t).
+Új makrók:  D2LONGW(x), D2ULONGW(x), D2ULONGX(x).
+Új makrók: PARNLW(i), PARNUW(i), PARNUX(i).
+Új makrók: _parnlw(i), _parnuw(i), _parnux(i).
+trim,  substr, slice, empty, at, rat, array: átírva binarysize_t-re.
+filemmap.cpp: átírva binarysize_t-re hibakezelés javítva.
+ftruncate: új modul fájl méret állítására (Linux/Windows külön).
+chsize: visszavezetve ftruncate-ra (depreacted, compatibility).
+fsetlock:  Windows/Linux szétválasztva, Windowson újraírva.
+fseek: Windowson újraítva _lseeki64()-re.
+findnext: fájl dátum kiolvasás újraírva, méret kilvasás javítva.
+vmm.cpp: átírva binarysize_t-re.
+
+
+2012.10.01 Windows 2012 Server 64 bit
+Jelentéktelen warningok javítása.
+MSC fordítási ociók: -G5 -GX megszűnt.
+MSC linkelési opciók:  bufferoverflowu.lib
+javítva: gtk_text_iter_apix.cpp, gtk_tree_iter_apix.cpp
+
+2012.10.01 Újraírt split újra javítva.
+A helyes eredmény:  split(NIL,"&") -> {}
+
+2012.09.24 exec-ben a Unixos execvpe hiánya pótolva.
+   
+2012.09.20 SQLite3 tesztek futtatása Windowson.
+Ugyanazok a tesztek futnak, mint Linuxon (nincs right join).
+sqlite3.dll lefordítása:
+    gcc -O2 -DNDEBUG=1 -DTHREADSAFE=1 -c sqlite3.c
+    gcc -shared -s -o sqlite3.dll sqlite3.o
+ahol sqlite3.c az egyfilés "amalgamation" kiszerelésből van,
+sqlite3.dll-t betesszük a path-ba.
+
+2012.09.20 Saját Postgres és SQLite3 prototype deklarációk.
+Ezekkel installált Postgres és SQLite3 nélkül is fordul az interfész.
+SQL2 fordítása Windowson (kipróbálva nincs, kliens DLL-ek kellenének).
+xmlnode-ban function cdataif static-ra változtatva.
+
+2012.09.11 Teszt tds-ek visszatéve a mentésbe.
+
+2012.09.01 Bővítések.
+simplehash: list, listkey, listvalue metódusok
+xmlnode: settext metódus.
+
+
+2012.08.04 Újraírt split javítva.
+A helyes eredmény:  split('a:'  , ':') -> {'a'}
+A helyes eredmény:  split('a: ' , ':') -> {'a',' '}
+
+
+2012.07.17 áttérés az új g-git scriptekre
+A változások a CHANGELOG-ban vannak vezetve.
+A CHANGELOG első üres sorokkal határolt bekezdéséből lesz a commit-message.
+A CHANGELOG mentődik a repóba, a commit-message fájl nem.
+
+
+# "sqlite3 different error classes" #2012.07.02
+# "sqlmvcc tutor" #2012.07.02
+# "sql2.sqlite3: WAL, rtrim" #2012.06.29
+# "flex iostream nelkul" #2012.06.27 
+# "sql2.sqlite3" #2012.06.25
+# "http_readmessage timeout esetén minden ágon NIL-t ad." #2012.06.17
+# "http_readmessage transfer-encoding: chunked" #2012.06.16
+# "sql2: sqltabaias javitva" #2012.05.31
+# "z editor: ztab javitva" #2012.05.31
+# "xmldom 1.6.00 preservespace" #2012.05.25 
+# "xmlparser elemzo szemetet szemetet engedett meg a bemenet vegen" #2012.05.25 
+# "savex -plx -pli opciók, repo ellenőrzés" #2012.04.30
+# "mask *.msk* alakú filénevek; tran2cpp javítás" #2012.04.22
+# "oneiric; mask different size; xmlparse createnodeblock" #2012.04.09
+# "xmldom: ures CDATA-ra elszallas javitva " #2011.11.28
+# "unix terminal optimalizacio" #2011.10.21
+# "checkbox:left felüldefinialva" #2011.09.19
+# "tabedrec picture" #2011.09.19
+# "localstack() return erteke derefelve" #2011.09.19
+# "get:undo javitva" #2011.08.29
+# "terminal: cursor_focus=1; mask: grchr javitva; msk2say: isbox javitva" #2011.08.25
+# "ialert: cursorpos, dispbegin" #2011.08.21
+# "z history absolute path"#2011.08.09
+# "jterminal dialog parent enable/disable"#2011.08.06
+# "z history"#2011.08.04
+# "sql2: sqlidquote megszunt; bind tabjoin-ban;" #2011.07.20
+# "sqlquery.getbinary javitva" #2011.07.20
+# "gtk readme" #2011.07.12
+# "tstru path" #2011.07.08
+# "stvar.cpp verify_overflow" #2011.07.07
+# "new demo certificates" #2011.06.17
+# "z.ver: elmaradt változásleírás" #2011.06.08
+# "ppo2prg/build searchinclude dirsep konverzio" #2011.05.22
+# "sqltanctlerror" #2011.05.04
+# "sqlconcurrencyerror" #2011.04.28
+# "előző javítás javítása" #2011.04.20
+# "sql2: dirty és null flagek" #2011.04.20
+# "Oracle memók" #2011.04.20
+# "jeed maxrow" #2011.04.12
+# "sql2: insert reread"  #2011.03.05
+# "so-k cp helyett mv-vel kerulnek a helyukre" #2010.12.22
+# "tutor/varstack" #2010.12.06
+# "windows karbantartas, filemap" #2010.11.23
+# "X és C típusok hossza unsigned long-ban számolva" #2010.11.08
+# "inverz makro, errorgen_nul(), binaryl(unsigned long len)" #2010.11.05
+# "jeed-ben sqldisconnect" #2010.10.24
+# "ccc2 backport" #2010.09.25
+# "SQl2 escape" #2010.09.23
+# "font-config" #2010.09.01
+# "build 1.3.02 --dry" #2010.07.18
+# "build 1.3.01" #2010.07.16
+# "build 1.3.00" #2010.07.12
+# "termapi sync/async"  #2010.07.11
+# "build cpp include-ok"  #2010.07.11
+# "hiányzó copyright-ok"  #2010.07.11
+# "slice array típusra" #2010.06.30
+# "z: dispbegin/dispend, hibakezelés finomítva" #2010.06.30
+# "savex: dispbegin/dispend" #2010.06.30
+# "többszálú terminál könyvtár, remote io letiltva lokális terminál esetén" #2010.06.30
+# "xmlrpc: Content-Length javitva" #2010.06.01
+# "websrw: if-modified-since header" #2010.05.26
+# "ctime.cpp megszunt" #2010.05.26
+# "time.cpp bovitve" #2010.05.26
+# "mask save" #2010.05.26
+
+# "REGEX_UTF8" #2010.04.30
+# "jtlib: changeitem atorokiti a dialogid-t fpath" #2010.04.15
+# "tutor: fpath" #2010.04.15
+# "regex modernizalas (windows)" #2010.04.15
+# "keymap_uc.z" #2010.04.13
+# "windows-os main-ekben _setmode(fd,O_BINARY)" #2010.04.09
+# "ignored retval javitas javitasa; install egybol vegleges ppo2cpp-t fordit" #2010.04.06
+# "terminál szinkronizáció" #2010.03.08
+# "xmldom: TEXT node-ra gettext"  #2010.02.17
+# "xmldom textnodeblock" #2010.02.12
+# "build 1.2.26 parfile include" #2010.02.04
+# "ppo2cpp 5.0.17 számliterál" #2010.01.25
+# "xmldom 1.4.00" #2010.01.11
+# "Lemon CCC-Build-3" #2010.01.11
+# "empty(block) visszaállítva a korábbi (==.f.) állapot" #2010.01.11
+# "ccclib:empty,len" #2009.12.30
+# "xmldom_lexer->getnext üres tokenekre javítás javítása" #2009.12.27
+# "ppo2cpp 5.0.16; setup-unix frissítve" #2009.12.18
+# "static class; recover <nsp.class>; xmethod3; prohibited method cast" #2009.12.14
+# "class.prg: runtime error, ha a metodus cast attributumot erint" #2009.12.02
+# "UTF-8 ellenőrzés az <<X>>...<<X>> stringekben." #2009.11.22
+# "xmldom_lexer->getnext üres tokenekre javítva" #2009.11.11
+# "xmldom: vedekezes az inputon elofordulo 0 byte ellen" #2009.11.10
+# "xmldom egységesítés, latin-2 támogatás" #2009.11.07
+# "Oracle SERIALIZABLE workaorund, handlerek nyilvántartása szinkronizálva" #2009.09.27
+# "mkentitylib errormessage" #2009.09.11
+# "jtsocket:queue, jtversion(timeout)" #2009.08.08
+# "jterminal unknown mnemonic"  #2009.08.05
+# "delempty" #2009.05.28
+# "netbsd gtk" #2009.05.10
+# "netbsd (5.0) port" #2009.05.07
+# "netbsd compatibility"
+# "tbrowse stabilize javítva"
+# "terminal invalidate szinkronizálva"
+# "ppo2cpp 5.0.13 vararg API bővítve, method forwarding átdolgozva" #2009.04.28
+# "ppo2cpp 5.0.12: method forwarding" #2009.04.22
+# "jt: cellaeditor számok változása, picturedocument R flag" #2009.03.15
+# "sql2: mkentitylib code_generated" #2009.03.15
+# "sql2: where x in :1" #2009.02.24
+# "xstart: hdup -> sethandleinhertflag" #2009.02.17
+# "jterminal 1.1.12, jtconnect hibaágak kidolgozása" #2009.02.05
+# "sslcon_accept-ben timeout (default: 10 sec)" #2009.02.05
+# "bovitett simplehash osztaly" #2009.01.20
+# "prg2ppo 1.4.0.rc1" #2009.01.12
+# "tex" #2009.01.12
+# "tutor qsort" #2008.12.23
+# "gtk javitgatas" #2008.12.15
+# "szalkezeles javitva" #2008.12.10
+# "Windows terminal FreeConsole" #2008.12.10
+# "GTK warnings" #2008.12.10
+# "delete -> DELTHRDATA" #2008.12.10
+# "closeonexec/sethandleinheritflag egysegesites" #2008.12.10
+# "SIGABRT kezeles" #2008.12.10
+# "ccc portok frissites" #2008.12.10
+# "unix-ncurses terminál" #2008.11.12
+# "telepitokeszlet frissites" #2008.11.05
+# "tovabbi gcc 4.3.2 warningok (flex)" #2008.11.05
+# "clean-all.b javitva" #2008.11.04
+# "gcc 4.3.2 warningok elnyomva" #2008.11.04
+# "qsort demó" #2008.11.04
+# "terminal expose event" #2008.10.21
+# "savex time korrekcio" #2008.09.17
+# "postfix comment"
